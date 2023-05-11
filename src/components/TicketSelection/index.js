@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { TicketSelectionDiv } from './TicketSelectionDiv';
 import { RadioInputDiv } from './RadioInputdiv';
 import { StyledButton } from './StyledButton';
@@ -12,14 +12,15 @@ export default function TicketTypeSelection() {
 
   const onTicketTypeChange = e => {
     setValue(parseInt(e.target.value));
-    if (parseInt(e.target.value) === 100) {
+    switch (parseInt(e.target.value)) {
+    case 100:
       setShowBookTicketButton(true);
       setType('Online');
-    }
-    else{
+      break;
+    default:
       setShowBookTicketButton(false);
+      break;
     }
-    console.log(e.target.value);
   };
 
   function handleClick() {
