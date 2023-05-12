@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { TicketSelectionDiv } from './TicketSelectionDiv';
 import { RadioInputDiv } from './RadioInputdiv';
 import { StyledButton } from './StyledButton';
@@ -7,12 +7,12 @@ import { ChosenTicketDiv } from './ChosenTicketDiv';
 export default function TicketTypeSelection() {
   const [ticketValue, setTicketValue] = useState(0);
   const [ticketType, setTicketType] = useState('');
-  //const [bookingType, setBookingType] = useState('');
-  //const [bookingValue, setBookingValue] = useState(0);
+  const [bookingType, setBookingType] = useState('');
+  const [bookingValue, setBookingValue] = useState(0);
   const [showRadioInput, setShowRadioInput] = useState(true);
   const [showBookTicketButton, setShowBookTicketButton] = useState(false);
 
-  const onTicketTypeChange = e => {
+  /*const onTicketTypeChange = e => {
     setTicketValue(parseInt(e.target.value));
     switch (e.target.value) {
     case '100':
@@ -37,16 +37,19 @@ export default function TicketTypeSelection() {
       setTicketType('');
       break;
     }
-  };
+  };*/
 
   const onTicketTypeChange = e => {
     const selectedValue = parseInt(e.target.value);
     setTicketValue(selectedValue);
+    setBookingValue(0);
+    setBookingType('');
   
     if (selectedValue === 100) {
       setTicketType('Online');
       setShowBookTicketButton(true);
     } else {
+      setShowBookTicketButton(false);
       setTicketType('Presencial');
     }
   };
@@ -63,18 +66,13 @@ export default function TicketTypeSelection() {
       setBookingType('Sem Hotel');
       setShowBookTicketButton(true);
     }
-  };*/
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setShowRadioInput(false);
     setShowBookTicketButton(false);
   };
-
-  useEffect(() => {
-    console.log(ticketType);
-    console.log(ticketValue);
-  }, [ticketType, ticketValue]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -99,19 +97,19 @@ export default function TicketTypeSelection() {
               </label>
             </RadioInputDiv>
           </TicketSelectionDiv>
-          {ticketType !== '' && ticketType !== 'Online' &&
+          {ticketType === 'Presencial' &&
             <TicketSelectionDiv>
               <h2>Ótimo! Agora escolha sua modalidade de hospedagem</h2>
               <RadioInputDiv>
                 <label htmlFor="sem-hotel">
-                  <input type="radio" id="sem-hotel" name="hotel" value="0" onChange={onTicketTypeChange} />
+                  <input type="radio" id="sem-hotel" name="hotel" value="0" onChange={onBookingChange} />
                   <div>
                     <span>Sem Hotel</span>
                     <span>+ R$ 0</span>
                   </div>
                 </label>
                 <label htmlFor="com-hotel">
-                  <input type="radio" id="com-hotel" name="hotel" value="600" onChange={onTicketTypeChange} />
+                  <input type="radio" id="com-hotel" name="hotel" value="350" onChange={onBookingChange} />
                   <div>
                     <span>Com Hotel</span>
                     <span>+ R$ 350</span>
@@ -130,7 +128,7 @@ export default function TicketTypeSelection() {
       }
       {showBookTicketButton
         ? <TicketSelectionDiv>
-          <h2>Fechado! O total ficou em <b>R$ {ticketValue}.</b> Agora é só confirmar:</h2>
+          <h2>Fechado! O total ficou em <b>R$ {ticketValue + bookingValue}.</b> Agora é só confirmar:</h2>
           <StyledButton type="submit">RESERVAR INGRESSO</StyledButton>
         </TicketSelectionDiv>
         : <></>
