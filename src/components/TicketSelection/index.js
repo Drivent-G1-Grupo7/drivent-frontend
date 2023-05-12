@@ -40,11 +40,11 @@ export default function TicketTypeSelection() {
     setBookingValue(parseInt(e.target.value));
     setShowBookTicketButton(false);
 
-    if (bookingValue === 0) {
-      setBookingType('Sem Hotel');
+    if (bookingValue === 350) {
+      setBookingType('Com Hotel');
       setShowBookTicketButton(true);
     } else {
-      setBookingType('Com Hotel');
+      setBookingType('Sem Hotel');
       setShowBookTicketButton(true);
     }
   };
