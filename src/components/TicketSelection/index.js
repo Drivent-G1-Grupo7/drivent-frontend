@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TicketSelectionDiv } from './TicketSelectionDiv';
 import { RadioInputDiv } from './RadioInputdiv';
 import { StyledButton } from './StyledButton';
@@ -39,22 +39,24 @@ export default function TicketTypeSelection() {
     }
   };
 
-  /*const onTicketTypeChange = e => {
-    setTicketValue(parseInt(e.target.value));
-
-    if (e.target.value === '250') {
-      setShowBookTicketButton(false);
-      setTicketType('Presencial');
-    } else {
+  const onTicketTypeChange = e => {
+    const selectedValue = parseInt(e.target.value);
+    setTicketValue(selectedValue);
+  
+    if (selectedValue === 100) {
       setTicketType('Online');
       setShowBookTicketButton(true);
+    } else {
+      setTicketType('Presencial');
     }
   };
 
   const onBookingChange = e => {
-    setBookingValue(parseInt(e.target.value));
-
-    if (e.target.value === '350') {
+    const selectedValue = parseInt(e.target.value);
+    setBookingValue(selectedValue);
+    setShowBookTicketButton(false);
+  
+    if (selectedValue === 350) {
       setBookingType('Com Hotel');
       setShowBookTicketButton(true);
     } else {
@@ -68,6 +70,11 @@ export default function TicketTypeSelection() {
     setShowRadioInput(false);
     setShowBookTicketButton(false);
   };
+
+  useEffect(() => {
+    console.log(ticketType);
+    console.log(ticketValue);
+  }, [ticketType, ticketValue]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -116,8 +123,8 @@ export default function TicketTypeSelection() {
         : <TicketSelectionDiv>
           <h2>Ingresso escolhido</h2>
           <ChosenTicketDiv>
-            <span>{ticketType}</span>
-            <span>R$ {ticketValue}</span>
+            <span>{ticketType} {bookingType} </span>
+            <span>R$ {ticketValue + bookingValue}</span>
           </ChosenTicketDiv>
         </TicketSelectionDiv>
       }
