@@ -7,28 +7,43 @@ import { ChosenTicketDiv } from './ChosenTicketDiv';
 export default function TicketTypeSelection() {
   const [ticketValue, setTicketValue] = useState(0);
   const [ticketType, setTicketType] = useState('');
-  const [bookingType, setBookingType] = useState('');
-  const [bookingValue, setBookingValue] = useState(0);
+  //const [bookingType, setBookingType] = useState('');
+  //const [bookingValue, setBookingValue] = useState(0);
   const [showRadioInput, setShowRadioInput] = useState(true);
   const [showBookTicketButton, setShowBookTicketButton] = useState(false);
 
-  /*const onTicketTypeChange = e => {
-    setValue(parseInt(e.target.value));
-    switch (parseInt(e.target.value)) {
-      case 100:
-        setShowBookTicketButton(true);
-        setType('Online');
-        break;
-      default:
-        setShowBookTicketButton(false);
-        break;
-    }
-  };*/
-
   const onTicketTypeChange = e => {
     setTicketValue(parseInt(e.target.value));
+    switch (e.target.value) {
+    case '100':
+      setShowBookTicketButton(true);
+      setTicketType('Online');
+      break;
+    case '250':
+      setShowBookTicketButton(false);
+      setTicketType('Presencial');
+      break;
+    case '600':
+      setShowBookTicketButton(true);
+      setTicketType('Presencial + Com Hotel');
+      break;
+    case '0':
+      setTicketValue(250);
+      setShowBookTicketButton(true);
+      setTicketType('Presencial + Sem Hotel');
+      break;
+    default:
+      setShowBookTicketButton(false);
+      setTicketType('');
+      break;
+    }
+  };
 
-    if (ticketValue === '250') {
+  /*const onTicketTypeChange = e => {
+    setTicketValue(parseInt(e.target.value));
+
+    if (e.target.value === '250') {
+      setShowBookTicketButton(false);
       setTicketType('Presencial');
     } else {
       setTicketType('Online');
@@ -38,16 +53,15 @@ export default function TicketTypeSelection() {
 
   const onBookingChange = e => {
     setBookingValue(parseInt(e.target.value));
-    setShowBookTicketButton(false);
 
-    if (bookingValue === 350) {
+    if (e.target.value === '350') {
       setBookingType('Com Hotel');
       setShowBookTicketButton(true);
     } else {
       setBookingType('Sem Hotel');
       setShowBookTicketButton(true);
     }
-  };
+  };*/
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -78,19 +92,19 @@ export default function TicketTypeSelection() {
               </label>
             </RadioInputDiv>
           </TicketSelectionDiv>
-          {ticketType === 'Presencial' && (
+          {ticketType !== '' && ticketType !== 'Online' &&
             <TicketSelectionDiv>
-              <h2>Primeiro, escolha sua modalidade de ingresso</h2>
+              <h2>Ótimo! Agora escolha sua modalidade de hospedagem</h2>
               <RadioInputDiv>
-                <label htmlFor="Sem hotel">
-                  <input type="radio" id="sem-hotel" name="hotel" value="0" onChange={onBookingChange} />
+                <label htmlFor="sem-hotel">
+                  <input type="radio" id="sem-hotel" name="hotel" value="0" onChange={onTicketTypeChange} />
                   <div>
                     <span>Sem Hotel</span>
                     <span>+ R$ 0</span>
                   </div>
                 </label>
-                <label htmlFor="Com Hotel">
-                  <input type="radio" id="com-hotel" name="hotel" value="350" onChange={onBookingChange} />
+                <label htmlFor="com-hotel">
+                  <input type="radio" id="com-hotel" name="hotel" value="600" onChange={onTicketTypeChange} />
                   <div>
                     <span>Com Hotel</span>
                     <span>+ R$ 350</span>
@@ -98,18 +112,18 @@ export default function TicketTypeSelection() {
                 </label>
               </RadioInputDiv>
             </TicketSelectionDiv>
-          )} </>
+          } </>
         : <TicketSelectionDiv>
           <h2>Ingresso escolhido</h2>
           <ChosenTicketDiv>
-            <span>{ticketType} + {bookingType} </span>
-            <span>R$ {ticketValue + bookingValue}</span>
+            <span>{ticketType}</span>
+            <span>R$ {ticketValue}</span>
           </ChosenTicketDiv>
         </TicketSelectionDiv>
       }
       {showBookTicketButton
         ? <TicketSelectionDiv>
-          <h2>Fechado! O total ficou em <b>R$ {ticketValue + bookingValue}.</b> Agora é só confirmar:</h2>
+          <h2>Fechado! O total ficou em <b>R$ {ticketValue}.</b> Agora é só confirmar:</h2>
           <StyledButton type="submit">RESERVAR INGRESSO</StyledButton>
         </TicketSelectionDiv>
         : <></>
