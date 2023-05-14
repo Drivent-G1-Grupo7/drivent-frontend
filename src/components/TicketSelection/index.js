@@ -3,6 +3,7 @@ import { TicketSelectionDiv } from './TicketSelectionDiv';
 import { RadioInputDiv } from './RadioInputdiv';
 import { StyledButton } from './StyledButton';
 import { ChosenTicketDiv } from './ChosenTicketDiv';
+import CardForm from '../CreditCardComponent';
 
 export default function TicketTypeSelection() {
   const [ticketValue, setTicketValue] = useState(0);
@@ -112,6 +113,7 @@ export default function TicketTypeSelection() {
             <span>{ticketType} {bookingType} </span>
             <span>R$ {ticketValue + bookingValue}</span>
           </ChosenTicketDiv>
+          <CardForm />
         </TicketSelectionDiv>
       }
       {showBookTicketButton
