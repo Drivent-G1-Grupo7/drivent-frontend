@@ -3,6 +3,7 @@ import hotel1Img from '../../assets/images/hotel1.png';
 import hotel2Img from '../../assets/images/hotel2.png';
 import hotel3Img from '../../assets/images/hotel3.png';
 import { useState } from 'react';
+import { set } from 'date-fns';
 
 const mockHotels = [
   {
@@ -40,14 +41,17 @@ function Hotel({ hotel, isSelected, setIsSelected }) {
   const GRAY = '#ebebeb';
   const YELLOW = '#FFEED2';
   const [color, setColor] = useState(isSelected ? YELLOW : GRAY);
+  const [lastClickedHotel, setLastClickedHotel] = useState(null);
 
   function handleSelectHotel(hotel) {
-    if (!isSelected) {
+    if (!isSelected & lastClickedHotel === null) {
       setIsSelected(true);
       setColor(YELLOW);
+      setLastClickedHotel(hotel.id);
     } else {
-      setIsSelected(false);
       setColor(GRAY);
+      setIsSelected(false);
+      setLastClickedHotel(null);
     }
   }
 
@@ -56,7 +60,6 @@ function Hotel({ hotel, isSelected, setIsSelected }) {
       <StyledHotelWrapper
         onClick={() => handleSelectHotel(hotel)}
         color={color}
-        type="radio"
         id={hotel.id}
         name="hotel"
         value={hotel.name}
