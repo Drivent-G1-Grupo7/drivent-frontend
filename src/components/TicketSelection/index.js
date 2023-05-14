@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TicketSelectionDiv } from './TicketSelectionDiv';
 import { RadioInputDiv } from './RadioInputdiv';
 import { StyledButton } from './StyledButton';
 import { ChosenTicketDiv } from './ChosenTicketDiv';
+import CardForm from '../CreditCardComponent';
 
 export default function TicketTypeSelection() {
   const [ticketValue, setTicketValue] = useState(0);
@@ -26,21 +27,23 @@ export default function TicketTypeSelection() {
   };*/
 
   const onTicketTypeChange = e => {
-    setTicketValue(parseInt(e.target.value));
-
-    if (ticketValue === '250') {
-      setTicketType('Presencial');
-    } else {
+    const selectedValue = parseInt(e.target.value);
+    setTicketValue(selectedValue);
+  
+    if (selectedValue === 100) {
       setTicketType('Online');
       setShowBookTicketButton(true);
+    } else {
+      setTicketType('Presencial');
     }
   };
 
   const onBookingChange = e => {
-    setBookingValue(parseInt(e.target.value));
+    const selectedValue = parseInt(e.target.value);
+    setBookingValue(selectedValue);
     setShowBookTicketButton(false);
-
-    if (bookingValue === 350) {
+  
+    if (selectedValue === 350) {
       setBookingType('Com Hotel');
       setShowBookTicketButton(true);
     } else {
@@ -54,6 +57,11 @@ export default function TicketTypeSelection() {
     setShowRadioInput(false);
     setShowBookTicketButton(false);
   };
+
+  useEffect(() => {
+    console.log(ticketType);
+    console.log(ticketValue);
+  }, [ticketType, ticketValue]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -102,9 +110,10 @@ export default function TicketTypeSelection() {
         : <TicketSelectionDiv>
           <h2>Ingresso escolhido</h2>
           <ChosenTicketDiv>
-            <span>{ticketType} + {bookingType} </span>
+            <span>{ticketType} {bookingType} </span>
             <span>R$ {ticketValue + bookingValue}</span>
           </ChosenTicketDiv>
+          <CardForm />
         </TicketSelectionDiv>
       }
       {showBookTicketButton
