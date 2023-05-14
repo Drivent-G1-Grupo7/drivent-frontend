@@ -5,16 +5,21 @@ import HotelSelection from '../../../components/HotelSelection';
 
 export default function Hotel() {
   const [hasOnlineTicketType, setHasOnlineTicketType] = useState(true);
+  const [hasPayed, setHasPayed] = useState(true);
 
   return (
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-      {hasOnlineTicketType ? (
+      {hasPayed ? hasOnlineTicketType ? (
         <HotelSelection />
       ) : (
         <NoBookingText>
           Sua modalidade de ingresso não inclui hospedagem Prossiga para a escolha de atividades
         </NoBookingText>
+      ): (
+        <NotPayedText>
+          Você precisa ter confirmado pagamento antes de fazer a escolha de hospedagem
+        </NotPayedText>
       )}
     </>
   );
@@ -25,6 +30,19 @@ const StyledTypography = styled(Typography)`
 `;
 
 const NoBookingText = styled.p`
+  margin: auto;
+  margin-top: 25%;
+  width: 464px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 23px;
+  text-align: center;
+  color: #8e8e8e;
+`;
+
+const NotPayedText = styled.p`
   margin: auto;
   margin-top: 25%;
   width: 464px;
