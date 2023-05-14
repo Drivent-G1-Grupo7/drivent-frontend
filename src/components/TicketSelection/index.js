@@ -51,7 +51,7 @@ export default function TicketTypeSelection() {
   const handleSubmit = async(event) => {
     event.preventDefault();
     try {
-      await createTicket({ ticketTypeId: bookedTicket });
+      await createTicket({ ticketTypeId: ticketData[bookedTicket].id });
       setShowRadioInput(false);
       setShowBookTicketButton(false);
     } catch (error) {
