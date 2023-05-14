@@ -22,41 +22,45 @@ const mockHotels = [
   },
 ];
 
-export default function HotelOption({ isSelected, setIsSelected }) {
+export default function HotelOption({ setIsSelected, lastSelectedHotel, setLastSelectedHotel }) {
   const [hotels, setHotels] = useState(mockHotels);
+
+  function handleSelectHotel(hotel) {
+    setLastSelectedHotel(hotel.id);
+  }
+
   return (
     <Container>
       <h2>Primeiro, escolha seu hotel</h2>
       <HotelSelectionWrapper>
         {hotels.map((hotel) => (
-          <Hotel key={hotel.id} hotel={hotel} isSelected={isSelected} setIsSelected={setIsSelected}/>
+          <Hotel
+            key={hotel.id}
+            hotel={hotel}
+            setIsSelected={setIsSelected}
+            lastSelectedHotel={hotel.id === lastSelectedHotel}
+            setLastSelectedHotel={handleSelectHotel}
+          />
         ))}
       </HotelSelectionWrapper>
     </Container>
   );
 }
 
-function Hotel({ hotel, isSelected, setIsSelected }) {
+function Hotel({ hotel, setIsSelected, lastSelectedHotel, setLastSelectedHotel }) {
   const GRAY = '#ebebeb';
   const YELLOW = '#FFEED2';
-  const [color, setColor] = useState(isSelected ? YELLOW : GRAY);
 
   function handleSelectHotel(hotel) {
-    if (!isSelected) {
-      setIsSelected(true);
-      setColor(YELLOW);
-    } else {
-      setIsSelected(false);
-      setColor(GRAY);
-    }
+    setLastSelectedHotel(hotel);
+    setIsSelected(true);
   }
 
   return (
     <>
       <StyledHotelWrapper
         onClick={() => handleSelectHotel(hotel)}
-        color={color}
-        type="radio"
+        color={lastSelectedHotel ? YELLOW : GRAY}
         id={hotel.id}
         name="hotel"
         value={hotel.name}
