@@ -3,6 +3,8 @@ import Cards from 'react-credit-cards-2';
 import { CardFormContainer, CardContainer } from './styles';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import { StyledButton } from './StyledButton';
+import { ConfirmedPaymentCard } from './ConfirmedPayment';
+import { Icon } from '@iconify/react';
 
 export default function CardForm() {
   const [cardData, setCardData] = useState({
@@ -88,7 +90,13 @@ export default function CardForm() {
               <StyledButton type="submit">FINALIZAR PAGAMENTO</StyledButton>
             </form>
           </> :
-          <h2>PAGEMENTO CONFIRMADO</h2>
+          <ConfirmedPaymentCard>
+            <div>
+              <Icon icon="material-symbols:check-circle" color="green" width="48" height="48" />
+              <h2>Pagamento Confirmado</h2>
+            </div>
+            <span>Prossiga para a escolha de hospedagem e atividades</span>
+          </ConfirmedPaymentCard>
         }
       </CardFormContainer>
     </CardContainer>
