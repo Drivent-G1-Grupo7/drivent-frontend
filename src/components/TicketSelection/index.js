@@ -3,6 +3,7 @@ import { TicketSelectionDiv } from './TicketSelectionDiv';
 import { RadioInputDiv } from './RadioInputdiv';
 import { StyledButton } from './StyledButton';
 import { ChosenTicketDiv } from './ChosenTicketDiv';
+import CardForm from '../CreditCardComponent';
 import useTicketType from '../../hooks/api/useTicketType';
 import useTicketCreation from '../../hooks/api/useTicketCreation';
 
@@ -12,8 +13,10 @@ export default function TicketTypeSelection() {
   const [presential, setPresential] = useState(false);
   const [showRadioInput, setShowRadioInput] = useState(true);
   const [showBookTicketButton, setShowBookTicketButton] = useState(false);
+  const [paymentConfirmed, setPaymentConfirmed] = useState(false);
   const { getTicketTypes } = useTicketType();
   const { createTicket } = useTicketCreation();
+  
   useEffect(() => {  
     const fetchData = async() => {
       const data = await getTicketTypes();
@@ -112,6 +115,7 @@ export default function TicketTypeSelection() {
             <span>{ticketData[bookedTicket].name} </span>
             <span>R$ {ticketData[bookedTicket].price}</span>
           </ChosenTicketDiv>
+          {paymentConfirmed === false ? (<CardForm setPaymentConfirmed={setPaymentConfirmed} />) : (<h2>Pagamento confirmado!</h2>)} 
         </TicketSelectionDiv>
       }
       {showBookTicketButton
