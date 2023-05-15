@@ -12,6 +12,7 @@ export default function TicketTypeSelection() {
   const [bookingValue, setBookingValue] = useState(0);
   const [showRadioInput, setShowRadioInput] = useState(true);
   const [showBookTicketButton, setShowBookTicketButton] = useState(false);
+  const [paymentConfirmed, setPaymentConfirmed] = useState(false);
 
   /*const onTicketTypeChange = e => {
     setValue(parseInt(e.target.value));
@@ -59,8 +60,6 @@ export default function TicketTypeSelection() {
   };
 
   useEffect(() => {
-    console.log(ticketType);
-    console.log(ticketValue);
   }, [ticketType, ticketValue]);
 
   return (
@@ -113,7 +112,7 @@ export default function TicketTypeSelection() {
             <span>{ticketType} {bookingType} </span>
             <span>R$ {ticketValue + bookingValue}</span>
           </ChosenTicketDiv>
-          <CardForm />
+          {paymentConfirmed === false ? (<CardForm setPaymentConfirmed={setPaymentConfirmed} />) : (<h2>Pagamento confirmado!</h2>)} 
         </TicketSelectionDiv>
       }
       {showBookTicketButton

@@ -26,7 +26,7 @@ export const CardFormContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 600px;
-    max-height: 180px;
+    max-height: 320px;
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;

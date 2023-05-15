@@ -2,8 +2,9 @@ import { useState } from 'react';
 import Cards from 'react-credit-cards-2';
 import { CardFormContainer, CardContainer } from './styles';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
+import { StyledButton } from './StyledButton';
 
-export default function CardForm() {
+export default function CardForm({ setPaymentConfirmed }) {
   const [cardData, setCardData] = useState({
     number: '',
     expiry: '',
@@ -29,6 +30,11 @@ export default function CardForm() {
     }));
   }
 
+  function handleSubmit(event) {
+    event.preventDefault();
+    setPaymentConfirmed(true);
+  }
+
   return (
     <CardContainer>
       <h2>Pagamento</h2>
@@ -40,7 +46,7 @@ export default function CardForm() {
           name={cardData.name}
           focused={cardData.focus}
         />
-        <form>
+        <form onSubmit={() => handleSubmit}>
           <input
             type='tel'
             name='number'
@@ -76,6 +82,7 @@ export default function CardForm() {
               onFocus={inputFocusHandler}
             />
           </div>
+          <StyledButton type="submit">FINALIZAR PAGAMENTO</StyledButton>
         </form>
       </CardFormContainer>
     </CardContainer>
