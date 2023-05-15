@@ -3,8 +3,10 @@ import Cards from 'react-credit-cards-2';
 import { CardFormContainer, CardContainer } from './styles';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import { StyledButton } from './StyledButton';
+import { ConfirmedPaymentCard } from './ConfirmedPayment';
+import { Icon } from '@iconify/react';
 
-export default function CardForm({ setPaymentConfirmed }) {
+export default function CardForm() {
   const [cardData, setCardData] = useState({
     number: '',
     expiry: '',
@@ -13,6 +15,7 @@ export default function CardForm({ setPaymentConfirmed }) {
     focus: '',
     issuer: ''
   });
+  const [showCreditCard, setShowCreditCard] = useState(true);
 
   function inputChangeHandler(event) {
     const { name, value } = event.target;
@@ -30,60 +33,71 @@ export default function CardForm({ setPaymentConfirmed }) {
     }));
   }
 
-  function handleSubmit(event) {
+  const handleSubmit = async(event) => {
     event.preventDefault();
-    setPaymentConfirmed(true);
-  }
+    setShowCreditCard(false);
+  };
 
   return (
     <CardContainer>
       <h2>Pagamento</h2>
       <CardFormContainer>
-        <Cards
-          number={cardData.number}
-          expiry={cardData.expiry}
-          cvc={cardData.cvc}
-          name={cardData.name}
-          focused={cardData.focus}
-        />
-        <form onSubmit={() => handleSubmit}>
-          <input
-            type='tel'
-            name='number'
-            placeholder='Número do Cartão'
-            value={cardData.number}
-            onChange={inputChangeHandler}
-            onFocus={inputFocusHandler}
-          />
-          <span>Ex: 49..., 51..., 36..., 37...</span>
-          <input
-            type='text'
-            name='name'
-            placeholder='Nome'
-            value={cardData.name}
-            onChange={inputChangeHandler}
-            onFocus={inputFocusHandler}
-          />
-          <div>
-            <input
-              type='tel'
-              name='expiry'
-              placeholder='Validade'
-              value={cardData.expiry}
-              onChange={inputChangeHandler}
-              onFocus={inputFocusHandler}
+        {showCreditCard ?
+          <>
+            <Cards
+              number={cardData.number}
+              expiry={cardData.expiry}
+              cvc={cardData.cvc}
+              name={cardData.name}
+              focused={cardData.focus}
             />
-            <input
-              type='tel'
-              name='cvc'
-              placeholder='CVC'
-              value={cardData.cvc}
-              onChange={inputChangeHandler}
-              onFocus={inputFocusHandler}
-            />
-          </div>
-          <StyledButton type="submit">FINALIZAR PAGAMENTO</StyledButton>
-        </form>
+            <form onSubmit={handleSubmit}>
+              <input
+                type='tel'
+                name='number'
+                placeholder='Número do Cartão'
+                value={cardData.number}
+                onChange={inputChangeHandler}
+                onFocus={inputFocusHandler}
+              />
+              <span>Ex: 49..., 51..., 36..., 37...</span>
+              <input
+                type='text'
+                name='name'
+                placeholder='Nome'
+                value={cardData.name}
+                onChange={inputChangeHandler}
+                onFocus={inputFocusHandler}
+              />
+              <div>
+                <input
+                  type='tel'
+                  name='expiry'
+                  placeholder='Validade'
+                  value={cardData.expiry}
+                  onChange={inputChangeHandler}
+                  onFocus={inputFocusHandler}
+                />
+                <input
+                  type='tel'
+                  name='cvc'
+                  placeholder='CVC'
+                  value={cardData.cvc}
+                  onChange={inputChangeHandler}
+                  onFocus={inputFocusHandler}
+                />
+              </div>
+              <StyledButton type="submit">FINALIZAR PAGAMENTO</StyledButton>
+            </form>
+          </> :
+          <ConfirmedPaymentCard>
+            <div>
+              <Icon icon="material-symbols:check-circle" color="green" width="48" height="48" />
+              <h2>Pagamento Confirmado</h2>
+            </div>
+            <span>Prossiga para a escolha de hospedagem e atividades</span>
+          </ConfirmedPaymentCard>
+        }
       </CardFormContainer>
     </CardContainer>
   );
