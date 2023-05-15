@@ -16,6 +16,7 @@ export default function TicketTypeSelection() {
   const [paymentConfirmed, setPaymentConfirmed] = useState(false);
   const { getTicketTypes } = useTicketType();
   const { createTicket } = useTicketCreation();
+  
   useEffect(() => {  
     const fetchData = async() => {
       const data = await getTicketTypes();
