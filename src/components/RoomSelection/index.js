@@ -1,7 +1,8 @@
 import { RoomOptions } from './RoomOption';
 import { RoomBox, RoomSelectionWrapper } from './RoomSelectionWrapper';
 import hotel1Img from '../../assets/images/hotel1.png';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import useRoom from '../../hooks/api/useRoom';
 
 const mockHotelsWithRooms = {
   id: 1,
@@ -32,6 +33,15 @@ const mockHotelsWithRooms = {
 export default function RoomSelection({ lastSelectedHotel }) {
   const id = lastSelectedHotel;
   const [hotelsWithRooms, setHotelsWithRooms] = useState(mockHotelsWithRooms);
+  const { getRooms } = useRoom();
+
+  useEffect(() => {
+    const fetchData = async() => {
+      const data = await getRooms(id);
+      setHotelsWithRooms(data);
+    };
+    fetchData().catch(setHotelsWithRooms(mockHotelsWithRooms));
+  }, []);
 
   return (
     <RoomSelectionWrapper>
