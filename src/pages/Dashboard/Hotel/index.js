@@ -13,13 +13,13 @@ export default function Hotel() {
       {hasPayed ? hasOnlineTicketType ? (
         <HotelSelection />
       ) : (
-        <NoBookingText>
+        <InvalidTicketText>
           Sua modalidade de ingresso não inclui hospedagem Prossiga para a escolha de atividades
-        </NoBookingText>
+        </InvalidTicketText>
       ): (
-        <NotPayedText>
+        <InvalidTicketText>
           Você precisa ter confirmado pagamento antes de fazer a escolha de hospedagem
-        </NotPayedText>
+        </InvalidTicketText>
       )}
     </>
   );
@@ -29,20 +29,7 @@ const StyledTypography = styled(Typography)`
   margin-bottom: 37px !important;
 `;
 
-const NoBookingText = styled.p`
-  margin: auto;
-  margin-top: 25%;
-  width: 464px;
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 23px;
-  text-align: center;
-  color: #8e8e8e;
-`;
-
-const NotPayedText = styled.p`
+const InvalidTicketText = styled.p`
   margin: auto;
   margin-top: 25%;
   width: 464px;

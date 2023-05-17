@@ -2,28 +2,21 @@ import { Container, HotelSelectionWrapper, StyledHotelWrapper } from './HotelSel
 import hotel1Img from '../../assets/images/hotel1.png';
 import hotel2Img from '../../assets/images/hotel2.png';
 import hotel3Img from '../../assets/images/hotel3.png';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import useHotel from '../../hooks/api/useHotel'
 
-const mockHotels = [
-  {
-    id: 1,
-    name: 'Driven Resort',
-    img: hotel1Img,
-  },
-  {
-    id: 2,
-    name: 'Driven Palace',
-    img: hotel2Img,
-  },
-  {
-    id: 3,
-    name: 'Driven World',
-    img: hotel3Img,
-  },
-];
 
 export default function HotelOption({ setIsSelected, lastSelectedHotel, setLastSelectedHotel }) {
-  const [hotels, setHotels] = useState(mockHotels);
+  const [hotels, setHotels] = useState('');
+  const { getHotels } = useHotel();
+
+  useEffect(() => {
+    const fetchData = async() => {
+      const data = await getHotels();
+      if (data !== null) setHotels(data);
+    };
+    fetchData().catch();
+  }, []);
 
   function handleSelectHotel(hotel) {
     setLastSelectedHotel(hotel.id);
