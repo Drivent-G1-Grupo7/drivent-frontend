@@ -28,7 +28,7 @@ export default function TicketTypeSelection() {
         setWasTicketChosen(true);
       }
     };
-    fetchData().catch();
+    fetchData().catch((e) => alert(e));
   }, []);
 
   const onTicketTypeChange = e => {
