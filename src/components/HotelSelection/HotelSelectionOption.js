@@ -4,39 +4,112 @@ import hotel2Img from '../../assets/images/hotel2.png';
 import hotel3Img from '../../assets/images/hotel3.png';
 import { useState, useEffect } from 'react';
 import useHotel from '../../hooks/api/useHotel';
+import useRoom from '../../hooks/api/useRoom';
 
 const mockHotels = [
   {
     id: 1,
     name: 'Driven Resort',
     image: hotel1Img,
+    vacancy: 9,
+    Rooms: [
+      {
+        id: 1,
+        name: '100',
+        capacity: 3,
+        hotelId: 1,
+      },
+      {
+        id: 2,
+        name: '101',
+        capacity: 3,
+        hotelId: 1,
+      },
+      {
+        id: 3,
+        name: '102',
+        capacity: 3,
+        hotelId: 1,
+      },
+    ],
   },
   {
     id: 2,
     name: 'Driven Palace',
     image: hotel2Img,
+    vacancy: 9,
+    Rooms: [
+      {
+        id: 4,
+        name: '200',
+        capacity: 3,
+        hotelId: 2,
+      },
+      {
+        id: 5,
+        name: '201',
+        capacity: 3,
+        hotelId: 2,
+      },
+      {
+        id: 6,
+        name: '202',
+        capacity: 3,
+        hotelId: 2,
+      },
+    ],
   },
   {
     id: 3,
     name: 'Driven World',
     image: hotel3Img,
+    vacancy: 9,
+    Rooms: [
+      {
+        id: 7,
+        name: '300',
+        capacity: 3,
+        hotelId: 3,
+      },
+      {
+        id: 8,
+        name: '301',
+        capacity: 3,
+        hotelId: 3,
+      },
+      {
+        id: 9,
+        name: '302',
+        capacity: 3,
+        hotelId: 3,
+      },
+    ],
   },
 ];
 
 export default function HotelOption({ setIsSelected, lastSelectedHotel, setLastSelectedHotel }) {
   const [hotels, setHotels] = useState(mockHotels);
   const { getHotels } = useHotel(); 
+  const { getRooms } = useRoom();
 
   useEffect(() => {
     const fetchData = async() => {
-      const data = await getHotels();
+      let data = await getHotels();
+      for (let i = 0; i < data.length; i++) {
+        data[i].vacancy = 0;
+        const { Rooms } = await getRooms(data[i].id);
+        data[i].Rooms = Rooms;
+        Rooms.forEach(room => {
+          data[i].vacancy += room.capacity;
+        });
+      }
       setHotels(data);
     };
     fetchData().catch(setHotels(mockHotels));
   }, []);
 
   function handleSelectHotel(hotel) {
-    setLastSelectedHotel(hotel.id);
+    setLastSelectedHotel(hotel.Rooms);
   }
 
   return (
@@ -48,7 +121,7 @@ export default function HotelOption({ setIsSelected, lastSelectedHotel, setLastS
             key={hotel.id}
             hotel={hotel}
             setIsSelected={setIsSelected}
-            lastSelectedHotel={hotel.id === lastSelectedHotel}
+            lastSelectedHotel={hotel.Rooms === lastSelectedHotel}
             setLastSelectedHotel={handleSelectHotel}
           />
         ))}
@@ -83,7 +156,7 @@ function Hotel({ hotel, setIsSelected, lastSelectedHotel, setLastSelectedHotel }
         </div>
         <div>
           <span>Vagas disponíveis:</span>
-          <p>103</p>
+          <p>{hotel.vacancy}</p>
         </div>
       </StyledHotelWrapper>
     </>

@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 
 export default function HotelSelection() {
   const [isSelected, setIsSelected] = useState(false);
-  const [lastSelectedHotel, setLastSelectedHotel] = useState('');
+  const [lastSelectedHotel, setLastSelectedHotel] = useState(null);
 
   return (
     <>
