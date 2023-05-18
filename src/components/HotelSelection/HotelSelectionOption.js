@@ -9,17 +9,17 @@ const mockHotels = [
   {
     id: 1,
     name: 'Driven Resort',
-    img: hotel1Img,
+    image: hotel1Img,
   },
   {
     id: 2,
     name: 'Driven Palace',
-    img: hotel2Img,
+    image: hotel2Img,
   },
   {
     id: 3,
     name: 'Driven World',
-    img: hotel3Img,
+    image: hotel3Img,
   },
 ];
 
@@ -37,7 +37,6 @@ export default function HotelOption({ setIsSelected, lastSelectedHotel, setLastS
 
   function handleSelectHotel(hotel) {
     setLastSelectedHotel(hotel.id);
-    alert(lastSelectedHotel);
   }
 
   return (
@@ -76,7 +75,7 @@ function Hotel({ hotel, setIsSelected, lastSelectedHotel, setLastSelectedHotel }
         name="hotel"
         value={hotel.name}
       >
-        <img src={hotel.img} alt="hotel1" />
+        <img src={hotel.image} alt="hotel" />
         <h3>{hotel.name}</h3>
         <div>
           <span>Tipos de acomodação:</span>

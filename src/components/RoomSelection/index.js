@@ -31,26 +31,29 @@ const mockHotelsWithRooms = {
 };
 
 export default function RoomSelection({ lastSelectedHotel }) {
-  const id = lastSelectedHotel;
-  const [hotelsWithRooms, setHotelsWithRooms] = useState(mockHotelsWithRooms);
+  const [hotelsWithRooms, setHotelsWithRooms] = useState('');
   const { getRooms } = useRoom();
 
   useEffect(() => {
     const fetchData = async() => {
-      const data = await getRooms(id);
+      const data = await getRooms(lastSelectedHotel);
       setHotelsWithRooms(data);
     };
-    fetchData().catch(setHotelsWithRooms(mockHotelsWithRooms));
-  }, []);
+    fetchData().catch();
+  }, [lastSelectedHotel]);
 
   return (
-    <RoomSelectionWrapper>
-      <h2>Ótima pedida! Agora escolha seu quarto:</h2>
-      <RoomBox>
-        {hotelsWithRooms.Rooms.map((room) => (
-          <RoomOptions key={room.id} room={room} />
-        ))}
-      </RoomBox>
-    </RoomSelectionWrapper>
+    <>
+      {hotelsWithRooms &&
+      <RoomSelectionWrapper>
+        <h2>Ótima pedida! Agora escolha seu quarto:</h2>
+        <RoomBox>
+          {hotelsWithRooms.Rooms.map((room) => (
+            <RoomOptions key={room.id} room={room} />
+          ))}
+        </RoomBox>
+      </RoomSelectionWrapper>
+      }
+    </>
   );
 }
