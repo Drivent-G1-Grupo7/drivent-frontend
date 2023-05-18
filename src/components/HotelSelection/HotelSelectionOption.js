@@ -25,7 +25,7 @@ const mockHotels = [
 export default function HotelOption({ setIsSelected, lastSelectedHotel, setLastSelectedHotel }) {
   const [hotels, setHotels] = useState(mockHotels);
 
-  function handleSelectHotel(hotel) {
+  function handleLastSelectHotel(hotel) {
     setLastSelectedHotel(hotel.id);
   }
 
@@ -39,7 +39,7 @@ export default function HotelOption({ setIsSelected, lastSelectedHotel, setLastS
             hotel={hotel}
             setIsSelected={setIsSelected}
             lastSelectedHotel={hotel.id === lastSelectedHotel}
-            setLastSelectedHotel={handleSelectHotel}
+            setLastSelectedHotel={handleLastSelectHotel}
           />
         ))}
       </HotelSelectionWrapper>
