@@ -108,7 +108,7 @@ export default function HotelOption({ setIsSelected, lastSelectedHotel, setLastS
     fetchData().catch(setHotels(mockHotels));
   }, []);
 
-  function handleSelectHotel(hotel) {
+  function handleLastSelectHotel(hotel) {
     setLastSelectedHotel(hotel.Rooms);
   }
 
@@ -122,7 +122,7 @@ export default function HotelOption({ setIsSelected, lastSelectedHotel, setLastS
             hotel={hotel}
             setIsSelected={setIsSelected}
             lastSelectedHotel={hotel.Rooms === lastSelectedHotel}
-            setLastSelectedHotel={handleSelectHotel}
+            setLastSelectedHotel={handleLastSelectHotel}
           />
         ))}
       </HotelSelectionWrapper>
