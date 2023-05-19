@@ -20,7 +20,7 @@ export default function Hotel() {
         const datatype = types.find((type) => {
           return type.id === data.ticketTypeId;
         });
-        if (datatype.isRemote === false || datatype.includesHotel === true ) setHasOnlineTicketType(true);
+        if (datatype.isRemote === false && datatype.includesHotel === true ) setHasOnlineTicketType(true);
       };
     };
     fetchData().catch();
