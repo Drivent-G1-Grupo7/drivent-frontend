@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { Icon } from '@iconify/react';
-import { RED } from './Utils/colors';
 
-export const RoomOptionWrapper = styled.div`
+export const RoomOptionWrapper = styled.button`
   margin-right: 15px;
   background: ${(props) => props.color};
   display: flex;
@@ -12,6 +11,13 @@ export const RoomOptionWrapper = styled.div`
   border-radius: 10px;
   cursor: pointer;
   position: relative;
+  :disabled {
+    cursor: not-allowed;
+    background: #e9e9e9;
+    label {
+      color: #9D9D9D;
+    }
+  }
 
   label {
     width: 35px;
@@ -33,7 +39,6 @@ export const CapacityDisplayWrapper = styled.div`
   right: 10px;
 `;
 export const IconBox = styled.div`
-  /* position:relative; */
   border: none !important;
 `;
 export const StyledIcon = styled(Icon)`

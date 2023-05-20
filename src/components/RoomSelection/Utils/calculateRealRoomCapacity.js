@@ -7,16 +7,18 @@
 import mockBookings from './bookingMock';
 import mockHotelsWithRooms from './hotelsWithRoomsMock';
 
-function getRealRoomCapacity(hotelId) {
-  const rooms = mockHotelsWithRooms.Room;
+function getRealRoomCapacity(hotelsWithRooms) {
+  const rooms = hotelsWithRooms;
   const bookings = mockBookings.Room;
   const realRoomCapacity = rooms.map((room) => {
-    const count = bookings.filter((booking) => booking.Room.id === room.id).length;
+    const bookingsCount = bookings.filter((booking) => booking.id === room.id).length;
     return {
       ...room,
-      isAvailable: count < room.capacity,
-      bookings: count,
+      isAvailableRoom: bookingsCount < room.capacity,
+      bookingsCount: bookingsCount,
     };
   });
   return realRoomCapacity;
 }
+
+export default getRealRoomCapacity;
