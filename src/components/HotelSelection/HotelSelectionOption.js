@@ -5,6 +5,7 @@ import hotel3Img from '../../assets/images/hotel3.png';
 import { useState, useEffect } from 'react';
 import useHotel from '../../hooks/api/useHotel';
 import useRoom from '../../hooks/api/useRoom';
+import { GRAY, YELLOW } from '../RoomSelection/Utils/colors';
 
 const mockHotels = [
   {
@@ -16,13 +17,13 @@ const mockHotels = [
       {
         id: 1,
         name: '100',
-        capacity: 3,
+        capacity: 1,
         hotelId: 1,
       },
       {
         id: 2,
         name: '101',
-        capacity: 3,
+        capacity: 2,
         hotelId: 1,
       },
       {
@@ -89,7 +90,7 @@ const mockHotels = [
 
 export default function HotelOption({ setIsSelected, lastSelectedHotel, setLastSelectedHotel }) {
   const [hotels, setHotels] = useState(mockHotels);
-  const { getHotels } = useHotel(); 
+  const { getHotels } = useHotel();
   const { getRooms } = useRoom();
 
   useEffect(() => {
@@ -99,7 +100,7 @@ export default function HotelOption({ setIsSelected, lastSelectedHotel, setLastS
         data[i].vacancy = 0;
         const { Rooms } = await getRooms(data[i].id);
         data[i].Rooms = Rooms;
-        Rooms.forEach(room => {
+        Rooms.forEach((room) => {
           data[i].vacancy += room.capacity;
         });
       }
@@ -131,9 +132,6 @@ export default function HotelOption({ setIsSelected, lastSelectedHotel, setLastS
 }
 
 function Hotel({ hotel, setIsSelected, lastSelectedHotel, setLastSelectedHotel }) {
-  const GRAY = '#ebebeb';
-  const YELLOW = '#FFEED2';
-
   function handleSelectHotel(hotel) {
     setLastSelectedHotel(hotel);
     setIsSelected(true);

@@ -6,8 +6,8 @@ import useTicket from '../../../hooks/api/useTicket';
 import useTicketType from '../../../hooks/api/useTicketType';
 
 export default function Hotel() {
-  const [hasOnlineTicketType, setHasOnlineTicketType] = useState(false);
-  const [hasPayed, setHasPayed] = useState(false);
+  const [hasOnlineTicketType, setHasOnlineTicketType] = useState(true);
+  const [hasPayed, setHasPayed] = useState(true);
   const { getTicket } = useTicket();
   const { getTicketTypes } = useTicketType();
 
