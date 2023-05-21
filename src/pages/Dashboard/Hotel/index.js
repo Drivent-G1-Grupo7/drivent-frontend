@@ -11,7 +11,7 @@ export default function Hotel() {
   const { getTicket } = useTicket();
   const { getTicketTypes } = useTicketType();
 
-  useEffect(() => {  
+  useEffect(() => {
     const fetchData = async() => {
       const data = await getTicket();
       if (data.status === 'PAID') {
@@ -20,8 +20,8 @@ export default function Hotel() {
         const datatype = types.find((type) => {
           return type.id === data.ticketTypeId;
         });
-        if (datatype.isRemote === false && datatype.includesHotel === true ) setHasOnlineTicketType(true);
-      };
+        if (datatype.isRemote === false && datatype.includesHotel === true) setHasOnlineTicketType(true);
+      }
     };
     fetchData().catch();
   }, []);
@@ -29,13 +29,15 @@ export default function Hotel() {
   return (
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-      {hasPayed ? hasOnlineTicketType ? (
-        <HotelSelection />
+      {hasPayed ? (
+        hasOnlineTicketType ? (
+          <HotelSelection />
+        ) : (
+          <InvalidTicketText>
+            Sua modalidade de ingresso não inclui hospedagem Prossiga para a escolha de atividades
+          </InvalidTicketText>
+        )
       ) : (
-        <InvalidTicketText>
-          Sua modalidade de ingresso não inclui hospedagem Prossiga para a escolha de atividades
-        </InvalidTicketText>
-      ): (
         <InvalidTicketText>
           Você precisa ter confirmado pagamento antes de fazer a escolha de hospedagem
         </InvalidTicketText>

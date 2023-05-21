@@ -1,16 +1,36 @@
 import { useState } from 'react';
 import RoomSelection from '../RoomSelection';
 import HotelOption from './HotelSelectionOption';
-import { useEffect } from 'react';
+import ChosenRoom from '../RoomSelection/ChosenRoom';
 
 export default function HotelSelection() {
   const [isSelected, setIsSelected] = useState(false);
   const [lastSelectedHotel, setLastSelectedHotel] = useState(null);
+  const [wasRoomChosen, setWasRoomChosen] = useState(false);
+  const [selectedRooms, setSelectedRooms] = useState([]);
+  const [changeRoom, setChangeRoom] = useState(false);
 
   return (
     <>
-      <HotelOption setIsSelected={setIsSelected} lastSelectedHotel={lastSelectedHotel} setLastSelectedHotel={setLastSelectedHotel}/>
-      {isSelected && <RoomSelection lastSelectedHotel={lastSelectedHotel} /> }
+      {wasRoomChosen ? (
+        <ChosenRoom lastSelectedHotel={lastSelectedHotel} lastSelectedRoom={selectedRooms} />
+      ) : (
+        <>
+          <HotelOption
+            setIsSelected={setIsSelected}
+            lastSelectedHotel={lastSelectedHotel}
+            setLastSelectedHotel={setLastSelectedHotel}
+          />
+          {isSelected && (
+            <RoomSelection
+              lastSelectedHotel={lastSelectedHotel}
+              setWasRoomChosen={setWasRoomChosen}
+              selectedRooms={selectedRooms}
+              setSelectedRooms={setSelectedRooms}
+            />
+          )}
+        </>
+      )}
     </>
   );
 }

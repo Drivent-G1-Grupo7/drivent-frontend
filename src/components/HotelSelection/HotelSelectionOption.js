@@ -110,7 +110,7 @@ export default function HotelOption({ setIsSelected, lastSelectedHotel, setLastS
   }, []);
 
   function handleLastSelectHotel(hotel) {
-    setLastSelectedHotel(hotel.Rooms);
+    setLastSelectedHotel(hotel);
   }
 
   return (
@@ -122,7 +122,7 @@ export default function HotelOption({ setIsSelected, lastSelectedHotel, setLastS
             key={hotel.id}
             hotel={hotel}
             setIsSelected={setIsSelected}
-            lastSelectedHotel={hotel.Rooms === lastSelectedHotel}
+            lastSelectedHotel={hotel.Rooms === lastSelectedHotel?.Rooms}
             setLastSelectedHotel={handleLastSelectHotel}
           />
         ))}
