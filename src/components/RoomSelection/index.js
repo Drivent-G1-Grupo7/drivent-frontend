@@ -12,10 +12,10 @@ export default function RoomSelection({ lastSelectedHotel, setWasRoomChosen, sel
     setHotelsWithRooms(lastSelectedHotel);
   }, [lastSelectedHotel]);
 
-  const handleSubmit = async(event) => {
+  function handleSubmit(event) {
     event.preventDefault();
     setWasRoomChosen(true);
-  };
+  }
 
   return (
     <form onSubmit={handleSubmit}>
