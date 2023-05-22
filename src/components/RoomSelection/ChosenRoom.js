@@ -2,15 +2,21 @@ import { Container, HotelSelectionWrapper, StyledHotelWrapper } from '../HotelSe
 import { StyledButton } from './StyledButtom';
 import { YELLOW } from './Utils/colors';
 
-export default function ChosenRoom({ lastSelectedHotel, lastSelectedRoom }) {
+export default function ChosenRoom({ lastSelectedHotel, lastSelectedRoom, setChangeRoom }) {
+  const handleSubmit = async(event) => {
+    event.preventDefault();
+    setChangeRoom(true);
+  };
   return (
-    <Container>
-      <h2>Você já escolheu seu quarto:</h2>
-      <HotelSelectionWrapper>
-        {<ChosenHotel lastSelectedHotel={lastSelectedHotel} lastSelectedRoom={lastSelectedRoom} />}
-      </HotelSelectionWrapper>
-      <StyledButton type="submit">TROCAR DE QUARTO</StyledButton>
-    </Container>
+    <form onSubmit={handleSubmit}>
+      <Container>
+        <h2>Você já escolheu seu quarto:</h2>
+        <HotelSelectionWrapper>
+          {<ChosenHotel lastSelectedHotel={lastSelectedHotel} lastSelectedRoom={lastSelectedRoom} />}
+        </HotelSelectionWrapper>
+        <StyledButton type="submit">TROCAR DE QUARTO</StyledButton>
+      </Container>
+    </form>
   );
 }
 
@@ -25,7 +31,9 @@ function ChosenHotel({ lastSelectedHotel, lastSelectedRoom }) {
         <h3>{lastSelectedHotel.name}</h3>
         <div>
           <span>Quarto reservado</span>
-          <p>{room.name} {<RoomCapacityName room={room}/>}</p>
+          <p>
+            {room.name} {<RoomCapacityName room={room} />}
+          </p>
         </div>
         <div>
           <span>Pessoas no seu quarto</span>
@@ -39,9 +47,9 @@ function ChosenHotel({ lastSelectedHotel, lastSelectedRoom }) {
 function RoomCapacityName({ room }) {
   if (room.capacity === 1) {
     return '(Single)';
-  } else if(room.capacity === 2) {
+  } else if (room.capacity === 2) {
     return '(Double)';
-  } else if(room.capacity === 3) {
+  } else if (room.capacity === 3) {
     return '(Triple)';
   }
 }

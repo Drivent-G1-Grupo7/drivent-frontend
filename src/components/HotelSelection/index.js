@@ -13,7 +13,7 @@ export default function HotelSelection() {
   return (
     <>
       {wasRoomChosen ? (
-        <ChosenRoom lastSelectedHotel={lastSelectedHotel} lastSelectedRoom={selectedRooms} />
+        <ChosenRoom lastSelectedHotel={lastSelectedHotel} lastSelectedRoom={selectedRooms} setChangeRoom={setChangeRoom}/>
       ) : (
         <>
           <HotelOption
