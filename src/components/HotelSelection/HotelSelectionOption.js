@@ -95,16 +95,15 @@ export default function HotelOption({ setIsSelected, lastSelectedHotel, setLastS
 
   useEffect(() => {
     const fetchData = async() => {
-      let data = await getHotels();
-      for (let i = 0; i < data.length; i++) {
-        data[i].vacancy = 0;
-        const { Rooms } = await getRooms(data[i].id);
-        data[i].Rooms = Rooms;
-        Rooms.forEach((room) => {
-          data[i].vacancy += room.capacity;
-        });
-      }
-      setHotels(data);
+      const hotelsData = await getHotels();
+      const hotelsWithRoomsData = await Promise.all(
+        hotelsData.map(async(hotel) => {
+          const { Rooms } = await getRooms(hotel.id);
+          const vacancy = Rooms.reduce((total, room) => total + room.capacity, 0);
+          return { ...hotel, Rooms, vacancy };
+        })
+      );
+      setHotels(hotelsWithRoomsData);
     };
     fetchData().catch(setHotels(mockHotels));
   }, []);
