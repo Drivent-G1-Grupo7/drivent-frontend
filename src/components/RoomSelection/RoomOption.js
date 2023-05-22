@@ -11,6 +11,7 @@ export function RoomOptions({ room, selectedRooms, setSelectedRooms }) {
 
   return (
     <RoomOptionWrapper
+      type='button'
       onClick={() => handleSelectedRoom(room.id)}
       color={selectedRooms.includes(room.id) ? YELLOW : WHITE }
       id={room.id}
