@@ -2,23 +2,24 @@ import { useState } from 'react';
 import { ActivityDateDiv } from './ActivityDateDiv';
 import { RadioInputDiv } from './RadioInputDiv';
 import RenderDateInput from './RenderDateInput';
+import ActivityOptions from './ActivityOptions';
 
 const mockDates = [
   {
     id: 1,
     date: '22/10',
-    weekday: 'Sexta'
+    weekday: 'Sexta',
   },
   {
     id: 2,
     date: '23/10',
-    weekday: 'Sábado'
+    weekday: 'Sábado',
   },
   {
     id: 3,
     date: '24/10',
-    weekday: 'Domingo'
-  }
+    weekday: 'Domingo',
+  },
 ];
 
 export default function ActivitySelection() {
@@ -28,14 +29,10 @@ export default function ActivitySelection() {
       <h2>Primeiro, filtre pelo dia do evento: </h2>
       <RadioInputDiv>
         {dates.map((dateinfo) => (
-          <RenderDateInput
-            key={dateinfo.id}
-            id={dateinfo.id}
-            weekday={dateinfo.weekday}
-            date={dateinfo.date}
-          />
+          <RenderDateInput key={dateinfo.id} id={dateinfo.id} weekday={dateinfo.weekday} date={dateinfo.date} />
         ))}
       </RadioInputDiv>
+      <ActivityOptions />
     </ActivityDateDiv>
   );
 }
