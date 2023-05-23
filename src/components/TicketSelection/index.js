@@ -24,11 +24,9 @@ export default function TicketTypeSelection() {
 
   useEffect(() => {
     const fetchData = async() => {
-      const [typesData, userTicket] = await Promise.all([
-        getTicketTypes(),
-        getTicket()
-      ]);
+      const typesData = await getTicketTypes();
       if (typesData !== null) setTicketData(typesData);
+      const userTicket = await getTicket();
       if (userTicket) {
         setBookedTicket(userTicket.ticketTypeId - 1);
         setUserTicketId(userTicket.id);

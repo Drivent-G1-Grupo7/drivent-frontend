@@ -2,10 +2,10 @@ import { Container, HotelSelectionWrapper, StyledHotelWrapper } from '../HotelSe
 import { StyledButton } from './StyledButtom';
 import { YELLOW } from './Utils/colors';
 
-export default function ChosenRoom({ lastSelectedHotel, lastSelectedRoom, setChangeRoom }) {
+export default function ChosenRoom({ lastSelectedHotel, lastSelectedRoom, setWasRoomChosen }) {
   const handleSubmit = async(event) => {
     event.preventDefault();
-    setChangeRoom(true);
+    setWasRoomChosen(false);
   };
   return (
     <form onSubmit={handleSubmit}>

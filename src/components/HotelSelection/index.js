@@ -8,12 +8,11 @@ export default function HotelSelection() {
   const [lastSelectedHotel, setLastSelectedHotel] = useState(null);
   const [wasRoomChosen, setWasRoomChosen] = useState(false);
   const [selectedRooms, setSelectedRooms] = useState([]);
-  const [changeRoom, setChangeRoom] = useState(false);
 
   return (
     <>
       {wasRoomChosen ? (
-        <ChosenRoom lastSelectedHotel={lastSelectedHotel} lastSelectedRoom={selectedRooms} setChangeRoom={setChangeRoom}/>
+        <ChosenRoom lastSelectedHotel={lastSelectedHotel} lastSelectedRoom={selectedRooms} setWasRoomChosen={setWasRoomChosen}/>
       ) : (
         <>
           <HotelOption
