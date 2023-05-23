@@ -5,8 +5,9 @@ import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import { StyledButton } from './StyledButton';
 import { ConfirmedPaymentCard } from './ConfirmedPayment';
 import { Icon } from '@iconify/react';
+import useProcessPayment from '../../hooks/api/useProcessPayment';
 
-export default function CardForm() {
+export default function CardForm({ unpaidTicket, ticketId }) {
   const [cardData, setCardData] = useState({
     number: '',
     expiry: '',
@@ -15,7 +16,8 @@ export default function CardForm() {
     focus: '',
     issuer: ''
   });
-  const [showCreditCard, setShowCreditCard] = useState(true);
+  const [showCreditCard, setShowCreditCard] = useState(unpaidTicket);
+  const { processPayment } = useProcessPayment();
 
   function inputChangeHandler(event) {
     const { name, value } = event.target;
@@ -35,7 +37,15 @@ export default function CardForm() {
 
   const handleSubmit = async(event) => {
     event.preventDefault();
-    setShowCreditCard(false);
+    try {
+      await processPayment({
+        ticketId: ticketId,
+        cardData: cardData
+      });
+      setShowCreditCard(false);
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (

@@ -7,6 +7,7 @@ import CardForm from '../CreditCardComponent';
 import useTicket from '../../hooks/api/useTicket';
 import useTicketType from '../../hooks/api/useTicketType';
 import useTicketCreation from '../../hooks/api/useTicketCreation';
+import useGetPayment from '../../hooks/api/useGetPayment';
 
 export default function TicketTypeSelection() {
   const [ticketData, setTicketData] = useState('');
@@ -17,18 +18,26 @@ export default function TicketTypeSelection() {
   const { getTicket } = useTicket();
   const { getTicketTypes } = useTicketType();
   const { createTicket } = useTicketCreation();
+  const { getPayment } = useGetPayment();
+  const [unpaidTicket, setUnpaidTicket] = useState(true);
+  const [userTicketId, setUserTicketId] = useState('');
 
   useEffect(() => {
     const fetchData = async() => {
-      const typesData = await getTicketTypes();
+      const [typesData, userTicket] = await Promise.all([
+        getTicketTypes(),
+        getTicket()
+      ]);
       if (typesData !== null) setTicketData(typesData);
-      const ticketData = await getTicket();
-      if (ticketData.id) {
-        setBookedTicket(ticketData.ticketTypeId - 1);
+      if (userTicket) {
+        setBookedTicket(userTicket.ticketTypeId - 1);
+        setUserTicketId(userTicket.id);
+        const userPayment = await getPayment(userTicket.id);
+        if (userPayment) setUnpaidTicket(false);
         setWasTicketChosen(true);
       }
     };
-    fetchData().catch((e) => alert(e));
+    fetchData().catch();
   }, []);
 
   const onTicketTypeChange = e => {
@@ -60,7 +69,8 @@ export default function TicketTypeSelection() {
   const handleSubmit = async(event) => {
     event.preventDefault();
     try {
-      await createTicket({ ticketTypeId: ticketData[bookedTicket].id });
+      const newTicket = await createTicket({ ticketTypeId: ticketData[bookedTicket].id });
+      setUserTicketId(newTicket.id);
       setShowBookTicketButton(false);
       setWasTicketChosen(true);
     } catch (error) {
@@ -82,7 +92,7 @@ export default function TicketTypeSelection() {
               <span>R$ {ticketData[bookedTicket].price}</span>
             </ChosenTicketDiv>
           </TicketSelectionDiv>
-          <CardForm />
+          <CardForm unpaidTicket={unpaidTicket} ticketId={userTicketId}/>
         </>
         :
         <form onSubmit={handleSubmit}>
@@ -127,12 +137,12 @@ export default function TicketTypeSelection() {
               </RadioInputDiv>
             </TicketSelectionDiv>
             } </>
-          {showBookTicketButton
-            ? <TicketSelectionDiv>
+          {showBookTicketButton && (
+            <TicketSelectionDiv>
               <h2>Fechado! O total ficou em <b>R$ {ticketData[bookedTicket].price}.</b> Agora é só confirmar:</h2>
               <StyledButton type="submit">RESERVAR INGRESSO</StyledButton>
             </TicketSelectionDiv>
-            : <></>
+          )
           }
         </form>
       }
