@@ -24,15 +24,22 @@ const mockDates = [
 
 export default function ActivitySelection() {
   const [dates, setDates] = useState(mockDates);
+  const [selectedDate, setSelectedDate] = useState([]);
   return (
     <ActivityDateDiv>
       <h2>Primeiro, filtre pelo dia do evento: </h2>
       <RadioInputDiv>
         {dates.map((dateinfo) => (
-          <RenderDateInput key={dateinfo.id} id={dateinfo.id} weekday={dateinfo.weekday} date={dateinfo.date} />
+          <RenderDateInput
+            key={dateinfo.id}
+            id={dateinfo.id}
+            weekday={dateinfo.weekday}
+            date={dateinfo.date}
+            setSelectedDate={setSelectedDate}
+          />
         ))}
       </RadioInputDiv>
-      <ActivityOptions />
+      {selectedDate.length > 0 && <ActivityOptions selectedDate={selectedDate} />}
     </ActivityDateDiv>
   );
 }
