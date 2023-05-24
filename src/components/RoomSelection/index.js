@@ -3,19 +3,26 @@ import { RoomBox, RoomSelectionWrapper } from './RoomSelectionWrapper';
 import { useState, useEffect } from 'react';
 import getRealRoomCapacity from './Utils/calculateRealRoomCapacity';
 import { StyledButton } from './StyledButtom';
+import usePostBooking from '../../hooks/api/usePostBooking';
 
 export default function RoomSelection({ lastSelectedHotel, setWasRoomChosen, selectedRooms, setSelectedRooms }) {
   const [hotelsWithRooms, setHotelsWithRooms] = useState(lastSelectedHotel);
   const realRoomCapacity = getRealRoomCapacity(hotelsWithRooms.Rooms);
+  const { postBooking } = usePostBooking();
 
   useEffect(() => {
     setHotelsWithRooms(lastSelectedHotel);
   }, [lastSelectedHotel]);
 
-  function handleSubmit(event) {
+  const handleSubmit = async(event) => {
     event.preventDefault();
-    setWasRoomChosen(true);
-  }
+    try {
+      await postBooking({ roomId: selectedRooms });
+      setWasRoomChosen(true);
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit}>
