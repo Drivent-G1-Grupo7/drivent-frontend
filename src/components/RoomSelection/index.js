@@ -17,7 +17,7 @@ export default function RoomSelection({ lastSelectedHotel, setWasRoomChosen, sel
   const handleSubmit = async(event) => {
     event.preventDefault();
     try {
-      await postBooking({ roomId: selectedRooms });
+      await postBooking({ roomId: selectedRooms[0] });
       setWasRoomChosen(true);
     } catch (error) {
       alert(error);
