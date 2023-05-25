@@ -4,11 +4,15 @@ import { useState, useEffect } from 'react';
 import getRealRoomCapacity from './Utils/calculateRealRoomCapacity';
 import { StyledButton } from './StyledButtom';
 import usePostBooking from '../../hooks/api/usePostBooking';
+import useUpdateBooking from '../../hooks/api/useUpdateBooking';
+import useGetBooking from '../../hooks/api/useGetBooking';
 
-export default function RoomSelection({ lastSelectedHotel, setWasRoomChosen, selectedRooms, setSelectedRooms }) {
+export default function RoomSelection({ lastSelectedHotel, setWasRoomChosen, selectedRooms, setSelectedRooms, booking, setBooking }) {
   const [hotelsWithRooms, setHotelsWithRooms] = useState(lastSelectedHotel);
   const realRoomCapacity = getRealRoomCapacity(hotelsWithRooms.Rooms);
   const { postBooking } = usePostBooking();
+  const { updateBooking } = useUpdateBooking();
+  const { getBooking } = useGetBooking();
 
   useEffect(() => {
     setHotelsWithRooms(lastSelectedHotel);
@@ -17,7 +21,13 @@ export default function RoomSelection({ lastSelectedHotel, setWasRoomChosen, sel
   const handleSubmit = async(event) => {
     event.preventDefault();
     try {
-      await postBooking({ roomId: selectedRooms[0] });
+      if (booking !== 0) {
+        await updateBooking({ id: booking, room: { roomId: selectedRooms[0] } });
+      } else {
+        await postBooking({ roomId: selectedRooms[0] });
+        const { id } = await getBooking();
+        setBooking(id);
+      }
       setWasRoomChosen(true);
     } catch (error) {
       alert(error);
