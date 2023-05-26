@@ -38,24 +38,41 @@ export const ActivityOptionsBox = styled.div`
   padding: 10px 14px 0px 9px;
   /* superior | direita | inferior | esquerda */
 `;
+export const ActivityOptionsContainer1 = styled.div`
+  margin-right: 18px;
+`;
 
-export const ActivityOptionsCard1 = styled.div`
+export const ActivityOptionsContainer3 = styled.div`
+  p {
+    width: 37px;
+    height: 11px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 9px;
+    line-height: 11px;
+    color: #078632;
+  }
+`;
+
+export const verticalLine = styled.div`
+  width: 20px;
+  height: 60px;
+  margin-right: 16px;
+  background: red;
+
+  border: 10px solid #cfcfcf;
+  /* transform: rotate(-90deg); */
+`;
+
+export const ActivityOptionsCard = styled.div`
+  display: flex;
   width: 265px;
-  height: 79px;
+  height: ${(props) => props.cardSize};
   background: #f1f1f1;
   border-radius: 5px;
   margin-bottom: 10px;
   padding: 12px 13px 9px 10px;
-  /* superior | direita | inferior | esquerda */
-`;
-
-export const ActivityOptionsCard2 = styled.div`
-  width: 265px;
-  height: 168px;
-  background: #f1f1f1;
-  border-radius: 5px;
-  padding: 12px 13px 9px 10px;
-  /* superior | direita | inferior | esquerda */
 `;
 
 export const ActivityOptionsCardTitle = styled.h3`
@@ -68,16 +85,17 @@ export const ActivityOptionsCardTitle = styled.h3`
   font-size: 12px;
   line-height: 14px;
   color: #343434;
+  margin-bottom: 6px;
 `;
 
-export const ActivityOptionsCardDescription = styled.p`
-  width: 70px;
-  height: 14px;
-
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 14px;
-  color: #343434;
+export const ActivityDateWrapper = styled.div`
+  display: flex;
+  p {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: #343434;
+  }
 `;

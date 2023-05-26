@@ -1,8 +1,13 @@
 import {
+  ActivityDateWrapper,
   ActivityOptionsBox,
-  ActivityOptionsCard1,
-  ActivityOptionsCard2,
+  ActivityOptionsCard,
+  ActivityOptionsCardTitle,
+  ActivityOptionsContainer1,
+  ActivityOptionsContainer2,
+  ActivityOptionsContainer3,
   ActivityOptionsContentWrapper,
+  verticalLine,
 } from './ActivityOptionsWrapper';
 
 const mockActivity = [
@@ -18,7 +23,7 @@ const mockActivity = [
     id: 2,
     name: 'Minecraft: montando o PC ideal',
     startTime: '09:00',
-    endTime: '10:00',
+    endTime: '11:00',
     totalSpots: 10,
     location: 'Auditório Lateral',
   },
@@ -39,32 +44,46 @@ export default function ActivityOptionsEvents({ selectedDate }) {
   return (
     <ActivityOptionsContentWrapper>
       {mainRoomActivities.map((activity) => (
-        <ActivityOptionsBox>
-          <ActivityOptionsCard1>
-            <h3>{activity.name}</h3>
-            <p>{activity.startTime}</p>
-            <p>{activity.endTime}</p>
-          </ActivityOptionsCard1>
-        </ActivityOptionsBox>
+        <ActivityOptionsContent activity={activity} />
       ))}
       {sideRoomActivities.map((activity) => (
-        <ActivityOptionsBox>
-          <ActivityOptionsCard2>
-            <h3>{activity.name}</h3>
-            <p>{activity.startTime}</p>
-            <p>{activity.endTime}</p>
-          </ActivityOptionsCard2>
-        </ActivityOptionsBox>
+        <ActivityOptionsContent activity={activity} />
       ))}
       {workshopRoomActivities.map((activity) => (
-        <ActivityOptionsBox>
-          <ActivityOptionsCard1>
-            <h3>{activity.name}</h3>
-            <p>{activity.startTime}</p>
-            <p>{activity.endTime}</p>
-          </ActivityOptionsCard1>
-        </ActivityOptionsBox>
+        <ActivityOptionsContent activity={activity} />
       ))}
     </ActivityOptionsContentWrapper>
+  );
+}
+
+function ActivityOptionsContent({ activity }) {
+  const { name, startTime, endTime } = activity;
+  const startTimeNumber = Number(startTime.slice(0, 2).replace(/^0+/, ''));
+  const endTimeNumber = Number(endTime.slice(0, 2).replace(/^0+/, ''));
+
+  const activityDuration = endTimeNumber - startTimeNumber;
+  let cardSize = '79px';
+
+  if (activityDuration !== 1) {
+    const result = activityDuration * 79 + 10;
+    cardSize = `${result}px`;
+  }
+
+  return (
+    <ActivityOptionsBox>
+      <ActivityOptionsCard cardSize={cardSize}>
+        <ActivityOptionsContainer1>
+          <ActivityOptionsCardTitle>
+            <h3>{name}</h3>
+          </ActivityOptionsCardTitle>
+          <ActivityDateWrapper>
+            <p>{startTime + ' - '}</p>
+            <p>{endTime}</p>
+          </ActivityDateWrapper>
+        </ActivityOptionsContainer1>
+        <verticalLine>ola</verticalLine>
+        <ActivityOptionsContainer3><p>27 vagas</p></ActivityOptionsContainer3>
+      </ActivityOptionsCard>
+    </ActivityOptionsBox>
   );
 }
