@@ -2,8 +2,7 @@ import { CapacityDisplayWrapper, IconBox, RoomOptionWrapper, StyledIcon } from '
 import { YELLOW, RED, BLACK, WHITE } from './Utils/colors';
 
 export function RoomOptions({ room, selectedRooms, setSelectedRooms }) {
-  const isAvailableRoom = room.isAvailableRoom;
-  const bookingsCount = room.bookingsCount;
+  const bookingsCount = 0;
 
   function handleSelectedRoom(roomId) {
     setSelectedRooms([roomId]);
@@ -17,7 +16,6 @@ export function RoomOptions({ room, selectedRooms, setSelectedRooms }) {
       id={room.id}
       name="room"
       value={room.name}
-      disabled={!isAvailableRoom}
     >
       <label htmlFor="room">{room.name}</label>
       <CapacityDisplayWrapper>
@@ -25,14 +23,13 @@ export function RoomOptions({ room, selectedRooms, setSelectedRooms }) {
           room={room}
           selectedRooms={selectedRooms}
           bookingsCount={bookingsCount}
-          isAvailableRoom={isAvailableRoom}
         />
       </CapacityDisplayWrapper>
     </RoomOptionWrapper>
   );
 }
 
-function CapacityDisplay({ room, selectedRooms, bookingsCount, isAvailableRoom }) {
+function CapacityDisplay({ room, selectedRooms, bookingsCount }) {
   const capacityIcons = [];
 
   if (bookingsCount === room.capacity) {
