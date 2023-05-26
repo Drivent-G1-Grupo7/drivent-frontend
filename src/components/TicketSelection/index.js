@@ -31,7 +31,9 @@ export default function TicketTypeSelection() {
         setBookedTicket(userTicket.ticketTypeId - 1);
         setUserTicketId(userTicket.id);
         const userPayment = await getPayment(userTicket.id);
-        if (userPayment) setUnpaidTicket(false);
+        if (userPayment) { 
+          setUnpaidTicket(false);
+        }
         setWasTicketChosen(true);
       }
     };

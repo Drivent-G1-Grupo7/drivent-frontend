@@ -35,7 +35,7 @@ export function RoomOptions({ room, selectedRooms, setSelectedRooms }) {
 function CapacityDisplay({ room, selectedRooms, bookingsCount, isAvailableRoom }) {
   const capacityIcons = [];
 
-  if (!isAvailableRoom) {
+  if (bookingsCount === room.capacity) {
     for (let i = 0; i < bookingsCount; i++) {
       capacityIcons.push(<StyledIcon key={i} icon="material-symbols:person" color="#9D9D9D" />);
     }
