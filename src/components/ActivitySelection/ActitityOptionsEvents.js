@@ -9,50 +9,35 @@ import {
   EnterEventContainer,
   ActivityOptionsContentWrapper,
   StyledIcon,
+  MainRoomActivitiesContainer,
+  SideRoomActivitiesContainer,
+  WorkshopRoomActivitiesContainer,
 } from './ActivityOptionsWrapper';
 
-const mockActivity = [
-  {
-    id: 1,
-    name: 'Minecraft: montando o PC ideal',
-    startTime: '09:00',
-    endTime: '10:00',
-    totalSpots: 0,
-    location: 'Auditório Principal',
-  },
-  {
-    id: 2,
-    name: 'Minecraft: montando o PC ideal',
-    startTime: '09:00',
-    endTime: '11:00',
-    totalSpots: 12,
-    location: 'Auditório Lateral',
-  },
-  {
-    id: 3,
-    name: 'Minecraft: montando o PC ideal',
-    startTime: '09:00',
-    endTime: '10:00',
-    totalSpots: 13,
-    location: 'Sala de Workshop',
-  },
-];
-
 export default function ActivityOptionsEvents({ selectedDate }) {
-  const mainRoomActivities = mockActivity.filter((activity) => activity.location === 'Auditório Principal');
-  const sideRoomActivities = mockActivity.filter((activity) => activity.location === 'Auditório Lateral');
-  const workshopRoomActivities = mockActivity.filter((activity) => activity.location === 'Sala de Workshop');
+  const mainRoomActivities = selectedDate.filter((activity) => activity.location === 'Auditorio Principal');
+
+  const sideRoomActivities = selectedDate.filter((activity) => activity.location === 'Auditorio Lateral');
+
+  const workshopRoomActivities = selectedDate.filter((activity) => activity.location === 'Sala de Workshop');
+
   return (
     <ActivityOptionsContentWrapper>
-      {mainRoomActivities.map((activity) => (
-        <ActivityOptionsContent activity={activity} />
-      ))}
-      {sideRoomActivities.map((activity) => (
-        <ActivityOptionsContent activity={activity} />
-      ))}
-      {workshopRoomActivities.map((activity) => (
-        <ActivityOptionsContent activity={activity} />
-      ))}
+      <MainRoomActivitiesContainer>
+        {mainRoomActivities.map((activity) => (
+          <ActivityOptionsContent activity={activity} />
+        ))}
+      </MainRoomActivitiesContainer>
+      <SideRoomActivitiesContainer>
+        {sideRoomActivities.map((activity) => (
+          <ActivityOptionsContent activity={activity} />
+        ))}
+      </SideRoomActivitiesContainer>
+      <WorkshopRoomActivitiesContainer>
+        {workshopRoomActivities.map((activity) => (
+          <ActivityOptionsContent activity={activity} />
+        ))}
+      </WorkshopRoomActivitiesContainer>
     </ActivityOptionsContentWrapper>
   );
 }
@@ -75,7 +60,9 @@ function ActivityOptionsContent({ activity }) {
   function handleClicktoSubcribe(activity) {
     if (subscribedActivities.includes(activity)) {
       setIsSubscribed(false);
-      const newSubscribedActivities = subscribedActivities.filter((lastSelectedActivity) => lastSelectedActivity.id !== activity.id);
+      const newSubscribedActivities = subscribedActivities.filter(
+        (lastSelectedActivity) => lastSelectedActivity.id !== activity.id
+      );
       setSubscribedActivities(newSubscribedActivities);
     } else {
       setIsSubscribed(true);

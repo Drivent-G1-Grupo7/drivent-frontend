@@ -1,6 +1,7 @@
-export default function RenderDateInput({ id, weekday, date, setSelectedDate }) {
-  function handleClick(id, date) {
-    setSelectedDate(date);
+export default function RenderDateInput({ id, weekday, date, setSelectedDate, dates }) {
+  function handleClick(id, selectedDate) {
+    const selectedDateActivities = dates.filter((date) => date.date === selectedDate);
+    setSelectedDate(selectedDateActivities);
   }
   return (
     <label htmlFor={id} onClick={() => handleClick(id, date)}>

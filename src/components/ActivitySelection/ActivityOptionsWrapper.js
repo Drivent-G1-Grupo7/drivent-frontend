@@ -32,10 +32,34 @@ export const ActivityOptionsContentWrapper = styled.div`
   height: 391px;
   border: 1px solid #d7d7d7;
 `;
+export const MainRoomActivitiesContainer = styled.div`
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  border-right: 1px solid #d7d7d7;
+  overflow-y: auto;
+
+
+`;
+export const SideRoomActivitiesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #d7d7d7;
+  overflow-y: auto;
+
+`;
+export const WorkshopRoomActivitiesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #d7d7d7;
+  overflow-y: auto;
+`;
 export const ActivityOptionsBox = styled.div`
-  width: 864px;
-  height: 391px;
-  border: 1px solid #d7d7d7;
+  display: flex;
+  /* flex-direction: column; */
+  /* width: 864px; */
+  height: auto;
+  /* border-right: 1px solid #d7d7d7; */
   padding: 10px 14px 0px 9px;
   /* superior | direita | inferior | esquerda */
 `;
@@ -62,6 +86,8 @@ export const ActivityOptionsContainer1 = styled.div`
 
 export const ActivityOptionsContainer2 = styled.div`
   display: flex;
+  flex-direction: column;
+
   width: 56px;
   flex-direction: column;
   justify-content: center;
