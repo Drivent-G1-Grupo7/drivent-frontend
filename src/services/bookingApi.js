@@ -30,3 +30,13 @@ export async function updateBooking(body = {}, token) {
   
   return response.data;
 }
+
+export async function roomBookings(body, token) {
+  const response = await api.get(`/booking/${body}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  
+  return response.data;
+}

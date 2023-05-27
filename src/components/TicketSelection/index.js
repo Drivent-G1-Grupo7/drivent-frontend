@@ -24,20 +24,23 @@ export default function TicketTypeSelection() {
 
   useEffect(() => {
     const fetchData = async() => {
-      const typesData = await getTicketTypes();
-      if (typesData !== null) setTicketData(typesData);
-      const userTicket = await getTicket();
-      if (userTicket) {
-        setBookedTicket(userTicket.ticketTypeId - 1);
-        setUserTicketId(userTicket.id);
-        const userPayment = await getPayment(userTicket.id);
-        if (userPayment) { 
-          setUnpaidTicket(false);
+      let userTicket = false;
+      try {
+        const typesData = await getTicketTypes();
+        if (typesData !== null) setTicketData(typesData);
+        userTicket = await getTicket();
+        if (userTicket) {
+          setBookedTicket(userTicket.ticketTypeId - 1);
+          setUserTicketId(userTicket.id);
+          const userPayment = await getPayment(userTicket.id);
+          if (userPayment) setUnpaidTicket(false);
+          setWasTicketChosen(true);
         }
-        setWasTicketChosen(true);
+      } catch (error) {
+        if (userTicket) setWasTicketChosen(true);
       }
     };
-    fetchData().catch();
+    fetchData();
   }, []);
 
   const onTicketTypeChange = e => {

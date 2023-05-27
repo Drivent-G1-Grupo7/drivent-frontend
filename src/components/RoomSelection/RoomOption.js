@@ -2,9 +2,6 @@ import { CapacityDisplayWrapper, IconBox, RoomOptionWrapper, StyledIcon } from '
 import { YELLOW, RED, BLACK, WHITE } from './Utils/colors';
 
 export function RoomOptions({ room, selectedRooms, setSelectedRooms }) {
-  const isAvailableRoom = room.isAvailableRoom;
-  const bookingsCount = room.bookingsCount;
-
   function handleSelectedRoom(roomId) {
     setSelectedRooms([roomId]);
   }
@@ -17,32 +14,30 @@ export function RoomOptions({ room, selectedRooms, setSelectedRooms }) {
       id={room.id}
       name="room"
       value={room.name}
-      disabled={!isAvailableRoom}
+      disabled={room.capacity === room.bookingsCount}
     >
       <label htmlFor="room">{room.name}</label>
       <CapacityDisplayWrapper>
         <CapacityDisplay
           room={room}
           selectedRooms={selectedRooms}
-          bookingsCount={bookingsCount}
-          isAvailableRoom={isAvailableRoom}
         />
       </CapacityDisplayWrapper>
     </RoomOptionWrapper>
   );
 }
 
-function CapacityDisplay({ room, selectedRooms, bookingsCount, isAvailableRoom }) {
+function CapacityDisplay({ room, selectedRooms }) {
   const capacityIcons = [];
 
-  if (bookingsCount === room.capacity) {
-    for (let i = 0; i < bookingsCount; i++) {
+  if (room.bookingsCount === room.capacity) {
+    for (let i = 0; i < room.bookingsCount; i++) {
       capacityIcons.push(<StyledIcon key={i} icon="material-symbols:person" color="#9D9D9D" />);
     }
   } else if (selectedRooms.includes(room.id)) {
     let i = 0;
-    if (bookingsCount) {
-      while (i < bookingsCount) {
+    if (room.bookingsCount > 0) {
+      while (i < room.bookingsCount) {
         capacityIcons.push(<StyledIcon key={i} icon="material-symbols:person" color={BLACK} />);
         i++;
       }
@@ -55,8 +50,8 @@ function CapacityDisplay({ room, selectedRooms, bookingsCount, isAvailableRoom }
     }
   } else {
     let i = 0;
-    if (bookingsCount) {
-      while (i < bookingsCount) {
+    if (room.bookingsCount > 0) {
+      while (i < room.bookingsCount) {
         capacityIcons.push(<StyledIcon key={i} icon="material-symbols:person" color={BLACK} />);
         i++;
       }
