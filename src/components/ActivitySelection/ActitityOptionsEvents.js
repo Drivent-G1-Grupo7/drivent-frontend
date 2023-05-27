@@ -75,7 +75,7 @@ function ActivityOptionsContent({ activity }) {
   function handleClicktoSubcribe(activity) {
     if (subscribedActivities.includes(activity)) {
       setIsSubscribed(false);
-      const newSubscribedActivities = subscribedActivities.filter((activity) => activity.id !== activity.id);
+      const newSubscribedActivities = subscribedActivities.filter((lastSelectedActivity) => lastSelectedActivity.id !== activity.id);
       setSubscribedActivities(newSubscribedActivities);
     } else {
       setIsSubscribed(true);

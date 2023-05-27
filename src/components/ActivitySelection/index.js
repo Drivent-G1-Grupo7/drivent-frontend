@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityDateDiv } from './ActivityDateDiv';
 import { RadioInputDiv } from './RadioInputDiv';
 import RenderDateInput from './RenderDateInput';
 import ActivityOptions from './ActivityOptions';
+import useGetActivities from '../../hooks/api/useGetActivity';
 
 const mockDates = [
   {
@@ -25,6 +26,18 @@ const mockDates = [
 export default function ActivitySelection() {
   const [dates, setDates] = useState(mockDates);
   const [selectedDate, setSelectedDate] = useState([]);
+  const { getActivities } = useGetActivities();
+
+  useEffect(() => {
+    const fetchData = async() => {
+      try {
+        const activityData = await getActivities();
+        setDates(activityData);
+      } catch (error) {}
+    };
+    fetchData();
+  }, []);
+
   return (
     <ActivityDateDiv>
       <h2>Primeiro, filtre pelo dia do evento: </h2>

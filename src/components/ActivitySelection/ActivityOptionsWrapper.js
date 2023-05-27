@@ -44,6 +44,7 @@ export const ActivityOptionsCard = styled.div`
   display: flex;
   width: 265px;
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+  pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
   height: ${(props) => props.cardSize};
   background: ${(props) => (props.isSubscribed ? '#d0ffdb' : '#f1f1f1')};
   border-radius: 5px;
