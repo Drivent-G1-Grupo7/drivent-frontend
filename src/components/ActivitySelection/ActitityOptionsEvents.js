@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   ActivityDateWrapper,
   ActivityOptionsBox,
@@ -5,9 +6,9 @@ import {
   ActivityOptionsCardTitle,
   ActivityOptionsContainer1,
   ActivityOptionsContainer2,
-  ActivityOptionsContainer3,
+  EnterEventContainer,
   ActivityOptionsContentWrapper,
-  verticalLine,
+  StyledIcon,
 } from './ActivityOptionsWrapper';
 
 const mockActivity = [
@@ -16,7 +17,7 @@ const mockActivity = [
     name: 'Minecraft: montando o PC ideal',
     startTime: '09:00',
     endTime: '10:00',
-    totalSpots: 10,
+    totalSpots: 0,
     location: 'Auditório Principal',
   },
   {
@@ -24,7 +25,7 @@ const mockActivity = [
     name: 'Minecraft: montando o PC ideal',
     startTime: '09:00',
     endTime: '11:00',
-    totalSpots: 10,
+    totalSpots: 12,
     location: 'Auditório Lateral',
   },
   {
@@ -32,7 +33,7 @@ const mockActivity = [
     name: 'Minecraft: montando o PC ideal',
     startTime: '09:00',
     endTime: '10:00',
-    totalSpots: 10,
+    totalSpots: 13,
     location: 'Sala de Workshop',
   },
 ];
@@ -57,9 +58,11 @@ export default function ActivityOptionsEvents({ selectedDate }) {
 }
 
 function ActivityOptionsContent({ activity }) {
-  const { name, startTime, endTime } = activity;
+  const { name, startTime, endTime, totalSpots } = activity;
   const startTimeNumber = Number(startTime.slice(0, 2).replace(/^0+/, ''));
   const endTimeNumber = Number(endTime.slice(0, 2).replace(/^0+/, ''));
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [subscribedActivities, setSubscribedActivities] = useState([]);
 
   const activityDuration = endTimeNumber - startTimeNumber;
   let cardSize = '79px';
@@ -69,9 +72,25 @@ function ActivityOptionsContent({ activity }) {
     cardSize = `${result}px`;
   }
 
+  function handleClicktoSubcribe(activity) {
+    if (subscribedActivities.includes(activity)) {
+      setIsSubscribed(false);
+      const newSubscribedActivities = subscribedActivities.filter((activity) => activity.id !== activity.id);
+      setSubscribedActivities(newSubscribedActivities);
+    } else {
+      setIsSubscribed(true);
+      setSubscribedActivities([...subscribedActivities, activity]);
+    }
+  }
+
   return (
     <ActivityOptionsBox>
-      <ActivityOptionsCard cardSize={cardSize}>
+      <ActivityOptionsCard
+        onClick={() => handleClicktoSubcribe(activity)}
+        cardSize={cardSize}
+        isSubscribed={isSubscribed}
+        disabled={totalSpots === 0}
+      >
         <ActivityOptionsContainer1>
           <ActivityOptionsCardTitle>
             <h3>{name}</h3>
@@ -81,9 +100,33 @@ function ActivityOptionsContent({ activity }) {
             <p>{endTime}</p>
           </ActivityDateWrapper>
         </ActivityOptionsContainer1>
-        <verticalLine>ola</verticalLine>
-        <ActivityOptionsContainer3><p>27 vagas</p></ActivityOptionsContainer3>
+        <ActivityOptionsContainer2 isSubscribed={isSubscribed}>
+          <EnterEvent totalSpots={totalSpots} isSubscribed={isSubscribed} />
+        </ActivityOptionsContainer2>
       </ActivityOptionsCard>
     </ActivityOptionsBox>
+  );
+}
+
+function EnterEvent({ totalSpots, isSubscribed }) {
+  return (
+    <>
+      {totalSpots === 0 ? (
+        <EnterEventContainer totalSpots={totalSpots}>
+          <StyledIcon icon="zondicons:close-outline" color="#cc6666" />
+          <p>Esgotado</p>
+        </EnterEventContainer>
+      ) : isSubscribed ? (
+        <EnterEventContainer totalSpots={totalSpots}>
+          <StyledIcon icon="gg:check-o" color="#078632" />
+          <p>Inscrito</p>
+        </EnterEventContainer>
+      ) : (
+        <EnterEventContainer totalSpots={totalSpots}>
+          <StyledIcon icon="pepicons-pop:enter" color="#078632" />
+          <p>{totalSpots} vagas</p>
+        </EnterEventContainer>
+      )}
+    </>
   );
 }

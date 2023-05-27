@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Icon } from '@iconify/react';
 
 export const ActivityOptionsWrapper = styled.div`
   width: 864px;
@@ -38,41 +39,64 @@ export const ActivityOptionsBox = styled.div`
   padding: 10px 14px 0px 9px;
   /* superior | direita | inferior | esquerda */
 `;
-export const ActivityOptionsContainer1 = styled.div`
-  margin-right: 18px;
+
+export const ActivityOptionsCard = styled.div`
+  display: flex;
+  width: 265px;
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+  height: ${(props) => props.cardSize};
+  background: ${(props) => (props.isSubscribed ? '#d0ffdb' : '#f1f1f1')};
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 12px 10px 12px 10px;
+  /* superior | direita | inferior | esquerda */
+  :disabled {
+    cursor: not-allowed;
+  }
 `;
 
-export const ActivityOptionsContainer3 = styled.div`
+export const ActivityOptionsContainer1 = styled.div`
+  width: 189px;
+`;
+
+export const ActivityOptionsContainer2 = styled.div`
+  display: flex;
+  width: 56px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-left: ${(props) => (props.isSubscribed ? ' 1px solid #99E8A1' : ' 1px solid #d7d7d7')};
+`;
+
+export const EnterEventContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
   p {
-    width: 37px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 11px;
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
     font-size: 9px;
     line-height: 11px;
-    color: #078632;
+    color: ${(props) => (props.totalSpots === 0 ? '#cc6666' : '#078632')};
+    margin-left: 5px;
   }
 `;
 
-export const verticalLine = styled.div`
-  width: 20px;
-  height: 60px;
-  margin-right: 16px;
-  background: red;
-
-  border: 10px solid #cfcfcf;
-  /* transform: rotate(-90deg); */
-`;
-
-export const ActivityOptionsCard = styled.div`
+export const StyledIcon = styled(Icon)`
   display: flex;
-  width: 265px;
-  height: ${(props) => props.cardSize};
-  background: #f1f1f1;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  padding: 12px 13px 9px 10px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5px;
+  margin-left: 5px;
 `;
 
 export const ActivityOptionsCardTitle = styled.h3`
