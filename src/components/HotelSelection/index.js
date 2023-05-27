@@ -5,6 +5,7 @@ import ChosenRoom from '../RoomSelection/ChosenRoom';
 import useGetBooking from '../../hooks/api/useGetBooking';
 import useHotel from '../../hooks/api/useHotel';
 import useRoom from '../../hooks/api/useRoom';
+import useRoomBooking from '../../hooks/api/useRoomBooking';
 
 export default function HotelSelection() {
   const [isSelected, setIsSelected] = useState(false);
@@ -16,32 +17,43 @@ export default function HotelSelection() {
   const { getBooking } = useGetBooking();
   const { getHotels } = useHotel();
   const { getRooms } = useRoom();
-
+  const { getRoomBooking } = useRoomBooking();
+ 
   useEffect(() => {
     const fetchData = async() => {
-      const hotelsData = await getHotels();
-      const hotelsWithRoomsData = await Promise.all(
-        hotelsData.map(async(hotel) => {
-          const { Rooms } = await getRooms(hotel.id);
-          const vacancy = Rooms.reduce((total, room) => total + room.capacity, 0);
-          return { ...hotel, Rooms, vacancy };
-        })
-      );
-      setHotels(hotelsWithRoomsData);
-      const userBooking = await getBooking();
-      if (userBooking) {
-        setBookingExists(userBooking.id);
-        setSelectedRooms([userBooking.Room.id]);
-        for (const hotel of hotelsWithRoomsData) {
-          const room = hotel.Rooms.find((room) => room.id === userBooking.Room.id);
-          if (room) {
-            setLastSelectedHotel(hotel);
-            setWasRoomChosen(true);
+      try {
+        const hotelsData = await getHotels();
+        const hotelsWithRoomsData = await Promise.all(
+          hotelsData.map(async(hotel) => {
+            const { Rooms } = await getRooms(hotel.id);
+            await Promise.all(
+              Rooms.map(async(room) => {
+                const { bookingLength } = await getRoomBooking(room.id);
+                room.bookingsCount = bookingLength;
+              })
+            );
+            const vacancy = Rooms.reduce((total, room) => total + room.capacity - room.bookingsCount, 0);
+            return { ...hotel, Rooms, vacancy };
+          })
+        );
+        setHotels(hotelsWithRoomsData);
+        const userBooking = await getBooking();
+        if (userBooking) {
+          setBookingExists(userBooking.id);
+          setSelectedRooms([userBooking.Room.id]);
+          for (const hotel of hotelsWithRoomsData) {
+            const room = hotel.Rooms.find((room) => room.id === userBooking.Room.id);
+            if (room) {
+              setLastSelectedHotel(hotel);
+              setWasRoomChosen(true);
+            }
           }
         }
+      } catch (error) {
+        setBookingExists(0);
       }
     };
-    fetchData().catch();
+    fetchData();
   }, []);
 
   return (
